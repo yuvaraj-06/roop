@@ -20,15 +20,7 @@ class ImageGenerator:
         try:
             prompt = "Design a photo of " + prmt
             neg_prompt = "ugly, blurry, poor quality"
-            
-            # Move model to CPU to free up GPU memory
-            self.pipe.to("cpu")
-            
             image = self.pipe(prompt=prompt, negative_prompt=neg_prompt).images[0]
-            
-            # Move model back to GPU for faster computation in future
-            self.pipe.to("cuda")
-            
             return image
         except RuntimeError as e:
             torch.cuda.empty_cache()  # Clear GPU cache
