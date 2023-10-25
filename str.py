@@ -37,7 +37,9 @@ class StreamlitApp:
             with st.spinner('Generating Image...'):
                 generated_image = self.generator.text_to_image(user_input)
                 if isinstance(generated_image, str):
-                    st.write(generated_image)  # Display error message
+                    torch.cuda.empty_cache()
+                    generated_image = self.generator.text_to_image(user_input)
+                    st.image(generated_image, caption='Generated Image', use_column_width=True)
                 else:
                     st.image(generated_image, caption='Generated Image', use_column_width=True)
 
